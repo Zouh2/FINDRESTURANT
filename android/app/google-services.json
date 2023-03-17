@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "706401647444",
+    "project_id": "findresteau",
+    "storage_bucket": "findresteau.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:706401647444:android:9842fce51b7165efa5e6c1",
+        "android_client_info": {
+          "package_name": "com.example.findresteau"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "706401647444-0f1jtc6uo8b1bgar6fa2u3lvhg6q0ufd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3zNGV53vIqtok99lfGsxrQm7rlnCOW9Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "706401647444-0f1jtc6uo8b1bgar6fa2u3lvhg6q0ufd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
