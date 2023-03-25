@@ -1,21 +1,31 @@
+import 'package:findresteau/pages/Profile_Page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
+
+import '../pages/profile_setup.dart';
+
 class AuthService{
 
-  singingoogle() async{
+  Future<UserCredential?> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+    if (googleUser == null) {
+      return null;
+    }
 
-    final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
     final credential = GoogleAuthProvider.credential(
-      accessToken: gAuth.accessToken,
-      idToken: gAuth.idToken,
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
     );
-    return await FirebaseAuth.instance.signInWithCredential(credential);
-
+    final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+    return userCredential;
   }
+
   singFb() async{
     final fb = FacebookLogin();
 
@@ -30,13 +40,13 @@ class AuthService{
         final email = await fb.getUserEmail();
         final imageUrl = await fb.getProfileImageUrl(width: 100);
 
-
-
         print('Access token: ${accessToken?.token}');
         print('Hello, ${profile!.name}! You ID: ${profile.userId}');
         print('Your profile image: $imageUrl');
         if (email != null)
           print('And your email is $email');
+
+
         break;
       case FacebookLoginStatus.cancel:
         break;
@@ -46,5 +56,4 @@ class AuthService{
     }
 
   }
-
 }

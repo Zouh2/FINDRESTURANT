@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:findresteau/pages/profile_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:findresteau/components/my_button.dart';
 import 'package:findresteau/components/my_textfield.dart';
 import 'package:findresteau/components/square_tile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:get/get.dart';
 import '../services/aut_services.dart';
 class registerPage extends StatefulWidget {
   final Function()? onTap;
@@ -14,12 +16,11 @@ class registerPage extends StatefulWidget {
 }
 
 class _registerPageState extends State<registerPage> {
-  // text editing controllers
-  final usernameController = TextEditingController();
 
+  final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmpasswordController = TextEditingController();
-  // sign user in method
+
   void signUserup() async {
 
     showDialog(
@@ -36,12 +37,13 @@ class _registerPageState extends State<registerPage> {
           email: usernameController.text,
           password: passwordController.text,
         );
-        Navigator.pop((context));
+          Navigator.pop((context));
       }
       else{
+        Navigator.pop((context));
         ErrorMessage();
       }
-    }  on FirebaseAuthException catch (e) {
+    }on FirebaseAuthException catch (e) {
       Navigator.pop((context));
       if (e.code == 'user-found') {
         print(' email deja un compte');
@@ -51,7 +53,6 @@ class _registerPageState extends State<registerPage> {
         wrongPasswordMessage();
       }
     }
-
   }
 
   void  wrongPasswordMessage() {
@@ -147,7 +148,7 @@ class _registerPageState extends State<registerPage> {
                 // username textfield
                 MyTextField(
                   controller: usernameController,
-                  hintText: 'Username',
+                  hintText: 'email',
                   obscureText: false,
                 ),
 
@@ -173,7 +174,7 @@ class _registerPageState extends State<registerPage> {
                 // sign in button
                 MyButton(
                   texte: "Sing Up",
-                  onTap: signUserup,
+                  onTap: signUserup ,
                 ),
 
                 const SizedBox(height: 20),
@@ -214,7 +215,7 @@ class _registerPageState extends State<registerPage> {
                   children:  [
                     // google button
                     SquareTile(
-                        onTap: () => AuthService().singingoogle(),
+                        onTap: () => AuthService().signInWithGoogle(),
                         imagePath: 'lib/images/google.png'
                     ),
 

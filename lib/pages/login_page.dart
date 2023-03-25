@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:findresteau/pages/profile_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:findresteau/components/my_button.dart';
 import 'package:findresteau/components/my_textfield.dart';
 import 'package:findresteau/components/square_tile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
 import '../services/aut_services.dart';
+import 'forgetpassword.dart';
 class LoginPage extends StatefulWidget {
   final Function()? onTap;
   const LoginPage({super.key , required this.onTap});
@@ -18,6 +22,18 @@ class _LoginPageState extends State<LoginPage> {
   final usernameController = TextEditingController();
 
   final passwordController = TextEditingController();
+  void passer() async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => forgetpassword()),
+    );
+  }
+  void navigateToProfilePage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) =>const DriverProfileSetup()),
+    );
+  }
 
   // sign user in method
   void signUserIn() async {
@@ -35,7 +51,9 @@ try {
     email: usernameController.text,
     password: passwordController.text,
   );
-}  on FirebaseAuthException catch (e) {
+    Navigator.pop((context));
+
+}on FirebaseAuthException catch (e) {
   Navigator.pop((context));
     if (e.code == 'user-not-found') {
     print('aucun email coonecter ');
@@ -45,9 +63,7 @@ try {
       wrongPasswordMessage();
     }
     }
-
   }
-
   void  wrongPasswordMessage() {
     showDialog(
       context: context,
@@ -143,9 +159,15 @@ try {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(
-                        'Forgot Password?',
-                        style: TextStyle(color: Colors.grey[600]),
+                      GestureDetector(
+                     onTap:  passer,
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -197,7 +219,8 @@ try {
                   children:  [
                     // google button
                     SquareTile(
-                      onTap: () => AuthService().singingoogle(),
+                      onTap: () => AuthService().signInWithGoogle()
+                        ,
                         imagePath: 'lib/images/google.png'
                     ),
 
